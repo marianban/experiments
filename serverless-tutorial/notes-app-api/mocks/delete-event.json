@@ -1,8 +1,10 @@
 {
-  "body": "{\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
+  "pathParameters": {
+    "id": "608c8530-a0a5-11e8-8902-a1bfd531e565"
+  },
   "requestContext": {
     "identity": {
       "cognitoIdentityId": "USER-SUB-1234"
-    } 
-  } 
+    }
+  }
 }
