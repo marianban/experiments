@@ -153,4 +153,10 @@ const App = () => {
 // marian.ban
 // Marian$11
 
+// http://amplify-notetaker-20190410195205-hostingbucket-dev.s3-website.eu-central-1.amazonaws.com
+
+// anplify status
+// GraphQL endpoint: https://dmcbdavu5jf6deuxedeunyys6i.appsync-api.eu-central-1.amazonaws.com/graphql
+// Hosting endpoint: http://amplify-notetaker-20190410195205-hostingbucket-dev.s3-website.eu-central-1.amazonaws.com
+
 export default withAuthenticator(App, { includeGreetings: true });
