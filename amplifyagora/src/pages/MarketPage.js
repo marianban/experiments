@@ -14,7 +14,7 @@ export const getMarket = `query GetMarket($id: ID!) {
   getMarket(id: $id) {
     id
     name
-    products {
+    products(sortDirection: DESC, limit: 100) {
       items {
         id
         description
@@ -39,7 +39,8 @@ class MarketPage extends React.Component {
   state = {
     market: null,
     isLoading: true,
-    isMarketOwner: false
+    isMarketOwner: false,
+    isEmailVerified: false
   };
 
   componentDidMount() {
@@ -109,6 +110,7 @@ class MarketPage extends React.Component {
       },
       () => {
         this.checkMarketOwner();
+        this.checkEmailVerified();
       }
     );
   };
@@ -123,8 +125,15 @@ class MarketPage extends React.Component {
     }
   };
 
+  checkEmailVerified = () => {
+    const { userAttributes } = this.props;
+    if (userAttributes) {
+      this.setState({ isEmailVerified: userAttributes.email_verified });
+    }
+  };
+
   render() {
-    const { market, isLoading, isMarketOwner } = this.state;
+    const { market, isLoading, isMarketOwner, isEmailVerified } = this.state;
 
     return isLoading ? (
       <Loading fullscreen={true} />
@@ -153,7 +162,13 @@ class MarketPage extends React.Component {
               }
               name="1"
             >
-              <NewProduct marketId={this.props.marketId} />
+              {isEmailVerified ? (
+                <NewProduct marketId={this.props.marketId} />
+              ) : (
+                <Link to="/profile" className="header">
+                  Verify Your Email before adding a product
+                </Link>
+              )}
             </Tabs.Pane>
           )}
 

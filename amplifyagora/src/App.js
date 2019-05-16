@@ -3,7 +3,8 @@ import { API, graphqlOperation, Auth, Hub } from 'aws-amplify';
 import { getUser } from './graphql/queries';
 import { registerUser } from './graphql/mutations';
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import MarketPage from './pages/MarketPage';
@@ -12,8 +13,10 @@ import './App.css';
 
 export const UserContext = React.createContext();
 
+export const history = createBrowserHistory();
+
 class App extends React.Component {
-  state = { user: null };
+  state = { user: null, userAttributes: null };
 
   componentDidMount() {
     this.getUserData();
@@ -22,7 +25,17 @@ class App extends React.Component {
 
   getUserData = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    user ? this.setState({ user }) : this.setState({ user: null });
+    user
+      ? this.setState({ user }, () => this.getUserAttributes(this.state.user))
+      : this.setState({ user: null });
+  };
+
+  getUserAttributes = async authUserData => {
+    const attributesArr = await Auth.userAttributes(authUserData);
+    const attributesObj = Auth.attributesToObject(attributesArr);
+    this.setState({
+      userAttributes: attributesObj
+    });
   };
 
   onHubCapsule = capsule => {
@@ -76,21 +89,26 @@ class App extends React.Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, userAttributes } = this.state;
     return !user ? (
       <Authenticator theme={theme} />
     ) : (
-      <UserContext.Provider value={{ user }}>
-        <Router>
+      <UserContext.Provider value={{ user, userAttributes }}>
+        <Router history={history}>
           <>
             <Navbar user={user} handleSignout={this.handleSignout} />
             <div className="app-container">
               <Route exact path="/" component={HomePage} />
-              <Route path="/profile" component={ProfilePage} />
+              <Route
+                path="/profile"
+                component={() => (
+                  <ProfilePage user={user} userAttributes={userAttributes} />
+                )}
+              />
               <Route
                 path="/markets/:marketId"
                 component={({ match }) => (
-                  <MarketPage marketId={match.params.marketId} user={user} />
+                  <MarketPage marketId={match.params.marketId} user={user} serAttributes={userAttributes} />
                 )}
               />
             </div>

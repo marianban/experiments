@@ -69,7 +69,7 @@ class Product extends React.Component {
     } = this.state;
     return (
       <UserContext.Consumer>
-        {({ user }) => {
+        {({ user, userAttributes }) => {
           const isProductOwner = user && user.attributes.sub === product.owner;
           return (
             <div className="card-container">
@@ -96,7 +96,10 @@ class Product extends React.Component {
                       ${convertCentsToDollars(product.price)}
                     </span>
                     {!isProductOwner && (
-                      <PayButton product={product} user={user} />
+                      <PayButton
+                        product={product}
+                        userAttributes={userAttributes}
+                      />
                     )}
                   </div>
                 </div>
