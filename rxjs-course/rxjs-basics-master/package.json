@@ -1,0 +1,18 @@
+{
+  "name": "rxjs-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "jsdom": "^16.2.2",
+    "parcel-bundler": "^1.12.3",
+    "rxjs": "^6.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "author": "Brian Troncone, Ultimate Courses",
+  "license": "MIT"
+}
