@@ -4,29 +4,29 @@ import {
   debounceTime,
   pluck,
   distinctUntilChanged,
-  switchMap,
   catchError,
+  tap,
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
-const click$ = fromEvent(document, 'click');
-const interval$ = interval(1000);
+// const click$ = fromEvent(document, 'click');
+// const interval$ = interval(1000);
 
-// if clicked the first interval is stopped and the previous interval subscription is completed
-click$.pipe(switchMap(() => interval$)).subscribe(console.log);
+// // if clicked the first interval is stopped and the previous interval subscription is completed
+// click$.pipe(switchMap(() => interval$)).subscribe(console.log);
 
-const inputBox = document.getElementById('text-input');
-const input$ = fromEvent(inputBox, 'keyup');
-
-input$
-  .pipe(
+// const inputBox = document.getElementById('text-input');
+// const input$ = fromEvent(inputBox, 'keyup');
+const BASE_URL = 'url';
+export const breweryTypeahead = (ajaxHelper = ajax) => (sourceObservable) => {
+  return sourceObservable.pipe(
     // debounceTime only emits after 200ms pause
     debounceTime(200),
     pluck('target', 'value'),
     distinctUntilChanged(),
     // this will make new request and cancel previous waiting if new request is issued
     switchMap((searchTerm) =>
-      ajax.getJSON(`${BASE_URL}?by_name=${searchTerm}}`).pipe(
+      ajaxHelper.getJSON(`${BASE_URL}?by_name=${searchTerm}}`).pipe(
         // will keep the subscription alive if error is occurred
         // we have to pipe it with the observable where we except the error to be thrown like here failing a ajax request
         catchError((error) => {
@@ -37,7 +37,9 @@ input$
         })
       )
     )
-  )
-  .subscribe((response) => {
-    console.log(response);
-  });
+  );
+};
+
+// input$.pipe(breweryTypeahead).subscribe((response) => {
+//   console.log(response);
+// });
