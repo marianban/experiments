@@ -1,5 +1,13 @@
 import { TestScheduler, expectObservable } from 'rxjs/testing';
-import { map, take, delay, tap, catchError } from 'rxjs/operators';
+import {
+  map,
+  take,
+  delay,
+  tap,
+  catchError,
+  toArray,
+  mergeMap,
+} from 'rxjs/operators';
 import { concat, from, of, throwError, interval } from 'rxjs';
 import { breweryTypeahead } from './switchMap';
 
@@ -204,6 +212,68 @@ describe('Marble testing in RxJS', () => {
         b: '2sec',
         c: '3sec',
       });
+    });
+  });
+});
+
+describe('subscribe & assert testing in RxJS', () => {
+  it('should compare each emitted value', () => {
+    const source$ = of(1, 2, 3);
+    const final$ = source$.pipe(map((value) => value * 10));
+    const expected = [10, 20, 30];
+    let index = 0;
+    final$.subscribe((val) => {
+      expect(val).toEqual(expected[index]);
+      index++;
+    });
+  });
+  it('should compare emitted values on completion with toArray', () => {
+    const source$ = of(1, 2, 3);
+    const final$ = source$.pipe(
+      map((value) => value * 10),
+      toArray()
+    );
+    const expected = [10, 20, 30];
+    final$.subscribe((val) => {
+      expect(val).toEqual(expected);
+    });
+  });
+  it('should let you test async operations with done callback', (done) => {
+    const source$ = of('Ready', 'Set', 'Go!').pipe(
+      mergeMap((message, index) => of(message).pipe(delay(index * 1000)))
+    );
+    const expected = ['Ready', 'Set', 'Go!'];
+    let index = 0;
+    source$.subscribe(
+      (val) => {
+        expect(val).toEqual(expected[index]);
+        index++;
+      },
+      null,
+      done
+    );
+  });
+  it('should let you test errors and error messages', () => {
+    // will fail for null
+    const source$ = of({ firstName: 'Brian', lastName: 'Smith' }, null).pipe(
+      map((o) => `${o.firstName} ${o.lastName}`),
+      catchError(() => {
+        throw 'Invalid user!';
+      })
+    );
+    const expected = ['Brian Smith', 'Invalid user!'];
+    const actual = [];
+    let index = 0;
+
+    source$.subscribe({
+      next: (value) => {
+        actual.push(value);
+        index++;
+      },
+      error: (error) => {
+        actual.push(error);
+        expect(actual).toEqual(expected);
+      },
     });
   });
 });
