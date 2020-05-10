@@ -8,7 +8,14 @@ const ConnectedHeader = () => {
   const [, setTodos] = useGlobalState(store.todos);
 
   const addTodo = (text) => {
-    setTodos((todos) => void todos.push({ text, id: v4(), completed: false }));
+    setTodos(
+      (todos) =>
+        void todos.push({
+          text,
+          id: v4(),
+          completed: false,
+        })
+    );
   };
 
   return <Header addTodo={addTodo} />;
