@@ -1,11 +1,11 @@
 import Header from '../components/Header';
 import React from 'react';
 import { v4 } from 'uuid';
-import { useGlobalState } from '../useGlobalState';
+import { useGlobalImmer } from 'use-global-immer';
 import { store } from '../store';
 
 const ConnectedHeader = () => {
-  const [, setTodos] = useGlobalState(store.todos);
+  const [, setTodos] = useGlobalImmer(store.todos);
 
   const addTodo = (text) => {
     setTodos(

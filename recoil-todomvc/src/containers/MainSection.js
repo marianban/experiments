@@ -1,18 +1,21 @@
 import React, { useMemo } from 'react';
 import MainSection from '../components/MainSection';
-import { useGlobalImmer } from 'use-global-immer';
-import { store } from '../store';
+import { useRecoilState } from 'recoil';
+import { todosAtom } from '../atoms/todos';
 
 const MainSectionContainer = () => {
-  const [todos, setTodos] = useGlobalImmer(store.todos);
+  const [todos, setTodos] = useRecoilState(todosAtom);
   const todosCount = todos.length;
+
   const completedCount = useMemo(
     () =>
       todos.reduce((count, todo) => (todo.completed ? count + 1 : count), 0),
     [todos]
   );
+
   const completeAllTodos = () =>
-    setTodos((todos) => void todos.forEach((todo) => (todo.completed = true)));
+    setTodos((todos) => todos.map((todo) => ({ ...todo, completed: true })));
+
   const clearCompleted = () =>
     setTodos((todos) => todos.filter((todo) => !todo.completed));
 

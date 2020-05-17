@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoList from '../components/TodoList';
 import { store } from '../store';
-import { useGlobalState } from '../useGlobalState';
+import { useGlobalImmer } from 'use-global-immer';
 import {
   SHOW_ALL,
   SHOW_COMPLETED,
@@ -22,8 +22,8 @@ const getVisibleTodos = (visibilityFilter, todos) => {
 };
 
 const VisibleTodoList = () => {
-  const [todos, setTodos] = useGlobalState(store.todos);
-  const [filter] = useGlobalState(store.filter);
+  const [todos, setTodos] = useGlobalImmer(store.todos);
+  const [filter] = useGlobalImmer(store.filter);
   const filteredTodos = getVisibleTodos(filter, todos);
 
   const findIndex = (todos, id) => todos.findIndex((t) => t.id === id);

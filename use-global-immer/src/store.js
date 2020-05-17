@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
 import { SHOW_ALL } from './constants/TodoFilters';
-import { createStore } from './createStore';
+import { createImmerStore } from 'use-global-immer';
 
-export const store = createStore({
+export const store = createImmerStore({
   todos: [
     {
       text: 'Use Regrok',
