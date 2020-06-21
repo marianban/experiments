@@ -1,0 +1,12 @@
+<app-comparison-toolbar></app-comparison-toolbar>
+
+<div class="track-cards" *ngIf="comparisonService.activeComparison">
+  <app-track-card
+    *ngFor="let track of comparisonService.activeComparison.tracks"
+    [track]="track"
+  ></app-track-card>
+</div>
+
+<div *ngIf="!comparisonService.activeComparison">
+  Start by clicking on New Comparison
+</div>
