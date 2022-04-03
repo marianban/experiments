@@ -1,0 +1,13 @@
+<div class="toolbar">
+  <button mat-stroked-button (click)="newComparison()">New Comparison</button>
+</div>
+<mat-action-list>
+  <button
+    mat-list-item
+    *ngFor="let comparison of comparisonService.getComparisons()"
+    (click)="selectComparison(comparison)"
+    [ngClass]="{ selected: comparison === comparisonService.activeComparison }"
+  >
+    {{ comparison.date | date: "medium" }}
+  </button>
+</mat-action-list>

@@ -1,0 +1,45 @@
+<mat-toolbar>
+  <form class="toolbar" (submit)="add()">
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Search track"
+        matInput
+        [matAutocomplete]="auto"
+        #searchBox
+        id="search-box"
+        [formControl]="myControl"
+        [disabled]="!hasComparisons()"
+        (input)="search(searchBox.value)"
+      />
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let track of tracks$ | async"
+        [value]="track.name"
+        (onSelectionChange)="select(track)"
+      >
+        {{ track.name }}
+      </mat-option>
+    </mat-autocomplete>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      [disabled]="!selectedTrack || !hasComparisons()"
+      class="btn-add"
+    >
+      Add Track
+    </button>
+
+    <button
+      mat-stroked-button
+      class="btn-delete"
+      type="button"
+      (click)="deleteComparison()"
+    >
+      Delete Comparison
+    </button>
+  </form>
+</mat-toolbar>

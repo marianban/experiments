@@ -1,0 +1,76 @@
+<mat-card class="track-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ track.name }}</mat-card-title>
+    <mat-card-subtitle>{{ track.albumName }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="{{ track.img }}" alt="Album Cover Image" />
+  <mat-card-content>
+    <mat-spinner *ngIf="!audioFeatures"></mat-spinner>
+    <mat-list dense *ngIf="audioFeatures">
+      <mat-list-item>
+        <app-audio-feature
+          label="Key"
+          [value]="audioFeatures.key"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Tempo"
+          [value]="audioFeatures.tempo"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Danceability"
+          [value]="audioFeatures.danceability"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Energy"
+          [value]="audioFeatures.energy"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Instrumentalness"
+          [value]="audioFeatures.instrumentalness"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Speechiness"
+          [value]="audioFeatures.speechiness"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Acousticness"
+          [value]="audioFeatures.acousticness"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Valence"
+          [value]="audioFeatures.valence"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Liveness"
+          [value]="audioFeatures.liveness"
+        ></app-audio-feature>
+      </mat-list-item>
+      <mat-list-item>
+        <app-audio-feature
+          label="Loudness"
+          [value]="audioFeatures.loudness"
+        ></app-audio-feature>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="delete(track)">DELETE</button>
+  </mat-card-actions>
+</mat-card>
