@@ -1,0 +1,23 @@
+.shopping-list {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,.03);
+  padding: 10px;
+  width: fit-content;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.shopping-list__item {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.btn-add {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+}

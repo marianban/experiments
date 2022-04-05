@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { v4 } from 'uuid';
-import { ShoppingItem } from './ShoppingItem.js';
+import { ShoppingListItem } from './ShoppingListItem.js';
+import './ShoppingList.css';
 
-export const App = () => {
+export const ShoppingList = () => {
   const [items, setItems] = useState([
     {
       id: v4(),
@@ -43,7 +44,7 @@ export const App = () => {
     <div className="shopping-list">
       {items.map((item) => {
         return (
-          <ShoppingItem
+          <ShoppingListItem
             key={item.id}
             item={item}
             onItemChange={handleOnItemChange}
@@ -51,7 +52,7 @@ export const App = () => {
           />
         );
       })}
-      <button type="button" onClick={handleAddNewItem}>
+      <button type="button" onClick={handleAddNewItem} className="btn-add">
         Add
       </button>
     </div>

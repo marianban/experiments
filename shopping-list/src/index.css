@@ -1,0 +1,26 @@
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #3381B8;
+  color: #fff;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #2E78AC;
+}
+
+input {
+  border: 1px solid #CBD2D9;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
